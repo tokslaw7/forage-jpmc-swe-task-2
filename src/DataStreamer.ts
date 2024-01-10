@@ -23,18 +23,18 @@ class DataStreamer {
    */
   static getData(callback: (data: ServerRespond[]) => void): void {
     const request = new XMLHttpRequest();
-    request.open('GET', DataStreamer.API_URL, false);
+    request.open('GET', DataStreamer.API_URL, true);
 
-    request.onload = () => {
-      if (request.status === 200) {
-        callback(JSON.parse(request.responseText));
-      } else {
-        alert ('Request failed');
-      }
+   request.onreadystatechange = () => {
+  if (request.readyState === 4) {
+    if (request.status === 200) {
+      callback(JSON.parse(request.responseText));
+    } else {
+      console.error('Request failed with status:', request.status);
     }
-
-    request.send();
   }
+}
+}
 }
 
 export default DataStreamer;
